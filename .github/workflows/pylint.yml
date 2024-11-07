@@ -21,10 +21,21 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-      - name: flake8 Lint
-        uses: py-actions/flake8@v2
-        with:
-          ignore: "E0401,E0611,R0903,R0913"
-          exclude: "__init__.py, queries.py, venv"
-          max-line-length: "90"
-          path: "/"
+      - name: Create virtual environment
+        run: python -m venv venv
+        working-directory: ${{ github.workspace }}
+      
+      - name: Activate virtual environment and install dependencies
+        run: |
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements/requirements.txt
+          deactivate
+        working-directory: ${{ github.workspace }}
+      
+      - name: Analyze code with Pylint
+        run: |
+          source venv/bin/activate
+          pylint $(git ls-files '*.py')
+          deactivate
+        working-directory: ${{ github.workspace }}
