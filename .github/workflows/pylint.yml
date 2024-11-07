@@ -28,22 +28,16 @@ jobs:
           deactivate
         working-directory: ${{ github.workspace }}
       
-      - name: Get changed Python files
-        id: changed_files
-        run: |
-          echo "Changed files: $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '.py' || true)" > changed_files.txt
-          echo "::set-output name=python_files::$(cat changed_files.txt)"
-
       - name: Analyze code with flake8
         run: |
           source venv/bin/activate
-          flake8 --ignore=W --exclude=__init__.py,queries.py,venv --statistics --count --max-line-length=90 ${{ steps.changed_files.outputs.python_files }}
+          flake8 --ignore=W --exclude=__init__.py, queries.py, venv, env --statistics --count --max-line-length=90
           deactivate
         working-directory: ${{ github.workspace }}
 
       - name: Analyze code with Pylint
         run: |
           source venv/bin/activate
-          pylint -ry --disable=E0401,E0611,R0903,R0913 --output-format=text ${{ steps.changed_files.outputs.python_files }} | tee /tmp/pylint.txt || pylint-exit --error-fail --refactor-fail --convention-fail $?
+          pylint -ry --disable=E0401,E0611,R0903,R0913 --output-format=text *.py
           deactivate
         working-directory: ${{ github.workspace }}
