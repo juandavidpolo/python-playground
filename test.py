@@ -16,12 +16,12 @@ def sustraction(a: int, b: int) -> int:
 
 
 def divide(a: int, b: int) ->int:
-    return a/b
+    return a / b
 
 
 def square(a: int) ->int:
-    return a**2
+    return a ** 2
 
 
 def root(a: int, b: int) ->float:
-    return a**(1/b)
+    return a ** (1 / b)
