@@ -31,9 +31,12 @@ jobs:
     - name: Get list of changed Python files
       id: changed_files
       run: |
-        git fetch origin ${{ github.base_ref }}
-        tmp_files=$(git diff --diff-filter=ACM --name-only origin/${{ github.base_ref }})
+        # Fetch the base branch so we can compare changes
+        git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+        # Get the list of changed files
+        tmp_files=$(git diff --diff-filter=ACM --name-only ${{ github.base_ref }})
         echo "Changed files are $tmp_files"
+        # Filter only Python files
         tmp_pfiles=$(echo "$tmp_files" | grep "\.py$" || true)
         echo "Python files are $tmp_pfiles"
         echo "::set-output name=python_files::$tmp_pfiles"
