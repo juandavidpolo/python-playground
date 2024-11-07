@@ -14,3 +14,6 @@ def sustraction (a:int, b:int) -> int:
 
 def divide (a:int, b:int) ->int:
     return a/b
+
+def square(a:int) ->int:
+    return a**2
