@@ -44,7 +44,7 @@ jobs:
     - name: Run flake8 on modified Python files
       if: steps.changed_files.outputs.python_files != ''
       run: |
-        flake8 --ignore=W --exclude=__init__.py,queries.py,venv --statistics --count --max-line-length=90 ${{ steps.changed_files.outputs.python_files }}
+        flake8 --ignore=W --exclude=__init__.py,queries.py, venv --statistics --count --max-line-length=90 ${{ steps.changed_files.outputs.python_files }}
 
     - name: Run pylint on modified Python files
       if: steps.changed_files.outputs.python_files != ''
