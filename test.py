@@ -1,36 +1,36 @@
 """Functions for test github actions"""
 
 
-def add(a_: int, b_: int) -> int:
+def add(a_a: int, b_b: int) -> int:
     """Addition of two numbers
     """
 
-    return a_ + b_
+    return a_a + b_b
 
 
-def sustraction(a_: int, b_: int) -> int:
+def sustraction(a_a: int, b_b: int) -> int:
     """Sustraction of two numbers
     """
 
-    return a_ - b_
+    return a_a - b_b
 
 
-def divide(a_: int, b_: int) -> int:
+def divide(a_a: int, b_b: int) -> int:
     """Division of two numbers
     """
 
-    return a_ / b_
+    return a_a / b_b
 
 
-def square(a_: int) -> int:
+def square(a_a: int) -> int:
     """Square value of a number
     """
 
-    return a_ ** 2
+    return a_a ** 2
 
 
-def root(a_: int, b_: int) -> float:
+def root(a_a: int, b_b: int) -> float:
     """root of a number
     """
 
-    return a_ ** (1 / b_)
+    return a_a ** (1 / b_b)
