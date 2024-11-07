@@ -1,5 +1,11 @@
 name: Pylint
 
+env:
+  pylint-v: 2.17.0
+  pylint-exit-ver: 1.2.0
+  flake8-v: 6.0.0
+
+
 on:
   push:
     branches-ignore:
@@ -20,7 +26,24 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pylint
-    - name: Analysing the code with pylint
+        pip install pylint==$pylint-v pylint-exit==$pylint-exit-ver flake8==$flake8-v
+
+    - name: Get list of changed Python files
+      id: changed_files
       run: |
-        pylint $(git ls-files '*.py') || true
+        git fetch origin ${{ github.base_ref }}
+        tmp_files=$(git diff --diff-filter=ACM --name-only origin/${{ github.base_ref }})
+        echo "Changed files are $tmp_files"
+        tmp_pfiles=$(echo "$tmp_files" | grep "\.py$" || true)
+        echo "Python files are $tmp_pfiles"
+        echo "::set-output name=python_files::$tmp_pfiles"
+
+    - name: Run flake8 on modified Python files
+      if: steps.changed_files.outputs.python_files != ''
+      run: |
+        flake8 --ignore=W --exclude=__init__.py,queries.py,venv --statistics --count --max-line-length=90 ${{ steps.changed_files.outputs.python_files }}
+
+    - name: Run pylint on modified Python files
+      if: steps.changed_files.outputs.python_files != ''
+      run: |
+        pylint -ry --disable=E0401,E0611,R0903,R0913,W --output-format=text ${{ steps.changed_files.outputs.python_files }} | tee /tmp/pylint.txt || pylint-exit --error-fail --refactor-fail --convention-fail $?
