@@ -17,3 +17,6 @@ def divide (a:int, b:int) ->int:
 
 def square(a:int) ->int:
     return a**2
+
+def root (a:int, b:int) ->float:
+    return a**(1/b)
