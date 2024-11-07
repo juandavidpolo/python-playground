@@ -49,4 +49,4 @@ jobs:
     - name: Run pylint on modified Python files
       if: steps.changed_files.outputs.python_files != ''
       run: |
-        pylint -ry --disable=E0401,E0611,R0903,R0913,W --output-format=text ${{ steps.changed_files.outputs.python_files }} | tee /tmp/pylint.txt || pylint-exit --error-fail --refactor-fail --convention-fail $?
+        pylint -ry --disable=E0401,E0611,R0903,R0913 --output-format=text ${{ steps.changed_files.outputs.python_files }} | tee /tmp/pylint.txt || pylint-exit --error-fail --refactor-fail --convention-fail $?
